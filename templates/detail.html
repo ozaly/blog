@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+  <h3>Makaleler</h3>
+  <hr>
+ <!-- Page content-->
+    <div class="row">
+        <!-- Post content-->
+        <div class="col-lg-8">
+            <!-- Title-->
+            <h3 class="mt-4">{{article.title}}</h3>
+                <!-- Author-->
+                <p class="lead">by {{article.author.username}}</p>
+                <hr />
+                    <!-- Date and time-->
+                    <p>{{article.created_date}}</p>
+                    <hr />
+                        <!-- Preview image-->
+                        {% if article.article_image %}
+                            <img class="img-fluid rounded" src="{{article.article_image.url}}" alt="..." />
+                            <hr />
+                        {% endif %}
+                        <!-- Post content-->
+                            <p class="lead">{{article.content|safe}}</p>
+                            <hr />
+
+                            {% if comments %}
+                            {% for comment in comments  %}
+                            <div class="media mb-4">
+                                <img class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50x50" alt="..." />
+                                <div class="media-body">
+                                    <h5 class="mt-0">{{comment.comment_author}}</h5>
+                                    <br>{{comment.comment_content}}<br>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+                            {% else %}
+                            <div class= "alert alert-danger">Bu makaleye yorum yapılmamış.İlk yorum yapan siz olun...</div>
+                            {% endif %}
+                            
+                                <!-- Comments form-->
+                                <div class="card my-4">
+                                    <h5 class="card-header">Yorum Ekle:</h5>
+                                    <div class="card-body">
+                                        <form method="post" action= "/articles/comment/{{article.id}}">
+                                            <div class="form-group">
+                                                <label for="formGroupExampleInput">İsim</label>
+                                                <input name="comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="İsminizi Giriniz">
+                                            </div>
+                                                {% csrf_token %}
+                                                <label for="formGroupExampleInput">Yorum</label>
+                                                <div class="form-group"><textarea name="comment_content" class="form-control" rows="3"></textarea>
+                                                </div>
+                                                <button class="btn btn-primary" type="submit">Ekle</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                            
+        </div>
+    </div>
+
+
+{% endblock body %}

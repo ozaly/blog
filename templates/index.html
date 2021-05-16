@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="jumbotron text-center">
+  <h3>Anasayfa</h3>
+
+    <h2>Blog deploy denemesidir</h2>    
+</div>  
+<p>
+{% if request.user.is_authenticated %}
+  Hoşgeldiniz,{{request.user.username}}
+{% else %}
+{% endif %}
+
+{% endblock body %}
